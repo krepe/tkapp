@@ -1,132 +1,121 @@
 <template>
-    <!-- component -->
-    <div class="bg-gray-400 h-screen w-screen">
+    <div class="h-screen font-sans login bg-cover">
         <NprogressContainer />
-        <div class="flex flex-col items-center flex-1 h-full justify-center px-4 sm:px-0">
-            <div
-                class="flex rounded-lg shadow-lg w-full sm:w-3/4 lg:w-1/2 bg-white sm:mx-0"
-                style="height: 500px"
-            >
-                <div class="flex flex-col w-full md:w-1/2 p-4">
-                    <div class="flex flex-col flex-1 justify-center mb-8">
-                        <div
-                            v-if="response.message"
-                            :class="`rounded-sm bg-${response.color}-100 p-4 mb-4`"
+        <div class="container mx-auto h-full flex flex-1 justify-center items-center">
+            <div class="w-full max-w-lg">
+                <div class="leading-loose">
+                    <form class="max-w-sm m-4 p-10 bg-white bg-opacity-30 rounded shadow-xl">
+                        <ValidationObserver
+                            ref="loginForm"
+                            tag="form"
+                            @submit.stop.prevent="login()"
                         >
-                            <h3 :class="`text-sm leading-5 font-medium text-${response.color}-800`">
-                                {{ response.message }}
-                            </h3>
-                        </div> 
-
-                        <div class="flex items-center justify-center  w-full h-20px-4 items-center mb-4">
-                            <img
-                                :src="imgLogo"
-                                class="w-12 h-12"
-                            >
-                            <p class="font-semibold text-3xl text-blue-400 pl-4">
-                                TransPoo
-                            </p>
-                        </div>
-                        <h1 class="text-2xl text-center font-semibold mb-6">
-                            Bem vindo de volta
-                        </h1>
-                        <div class="w-full mt-4">
-                            <div class="w-3/4 mx-auto">    
-                                <ValidationObserver
-                                    ref="loginForm"
-                                    tag="form"
-                                    @submit.stop.prevent="login()"
+                            <div class="flex items-center justify-center  w-full h-20px-4 items-center mb-4">
+                                <img
+                                    :src="imgLogo"
+                                    class="w-12 h-12"
                                 >
-                                    <div class="flex flex-col mt-4">
-                                        <ValidationProvider
-                                            v-slot="{ errors }"
-                                            rules="required"
-                                            name="Usuário"
-                                        >
-                                            <input
-                                                v-model="name"
-                                                type="text"
-                                                class="flex-grow h-8 px-2 rounded border border-blue-400 focus:outline-none focus:border-blue-600 rounded-sm py-3 px-4 block w-full appearance-none leading-normal"
-                                                name="name"
-                                                value=""
-                                                placeholder="Usuário"
-                                                autofocus
-                                            >
-                                            <div
-                                                v-if="!!errors[0]"
-                                                class="text-red-500 text-sm mb-2"
-                                            >
-                                                {{ errors[0] }}
-                                            </div>
-                                        </ValidationProvider>
-                                    </div>
-                                    <div class="flex flex-col mt-4">
-                                        <ValidationProvider
-                                            v-slot="{ errors }"
-                                            rules="required"
-                                            name="Senha"
-                                        >
-                                            <input
-                                                v-model="password"
-                                                type="password"
-                                                class="flex-grow h-8 px-2 rounded border border-blue-400 focus:outline-none focus:border-blue-800 rounded-sm py-3 px-4 block w-full appearance-none leading-normal"
-                                                name="password"
-                                                placeholder="Senha"
-                                            >
-                                            <div
-                                                v-if="!!errors[0]"
-                                                class="text-red-500 text-sm mb-2"
-                                            >
-                                                {{ errors[0] }}
-                                            </div>
-                                        </ValidationProvider>
-                                    </div>
-                                    <div class="flex items-center mt-4">
-                                        <input
-                                            type="checkbox"
-                                            name="remember"
-                                            id="remember"
-                                            class="mr-2"
-                                        > <label
-                                            for="remember"
-                                            class="text-sm text-grey-dark"
-                                        >Lembre de mim</label>
-                                    </div>
-                                    <div class="flex flex-col mt-8">
-                                        <button
-                                            type="submit"
-                                            :disabled="spinner.login"
-                                            class="flex items-center justify-center bg-blue-400 text-white font-semibold text-sm focus:outline-none rounded-sm py-3 px-4 block w-full appearance-none leading-normal"
-                                        >
-                                            <img
-                                                v-if="spinner.login"
-                                                src="@/assets/img/spinner.svg"
-                                                class="w-5 h-5"
-                                            >
-                                            Entrar
-                                        </button>
-                                    </div>
-                                </ValidationObserver>
+                                <p class="font-semibold text-3xl text-blue-400 pl-4">
+                                    TransPoo
+                                </p>
                             </div>
-                            <div class="text-center mt-4">
+                            <h1 class="text-2xl text-center font-semibold mt-5 mb-4">
+                                Login
+                            </h1>                         
+                            <div
+                                v-if="response.message"
+                                :class="`rounded-sm bg-${response.color}-100 p-4 mb-4 mt-4`"
+                            >
+                                <h3 :class="`text-sm leading-5 font-medium text-${response.color}-800`">
+                                    {{ response.message }}
+                                </h3>
+                            </div>         
+                            <div class="">
+                                <ValidationProvider
+                                    v-slot="{ errors }"
+                                    rules="required"
+                                    name="Usuário"
+                                >
+                                    <label
+                                        class="block text-sm text-white"
+                                        for="usuario"
+                                    >Usuário</label>
+                                    <input
+                                        v-model="name"
+                                        type="text"
+                                        class="w-full px-5 py-1 text-gray-700 bg-gray-300 rounded focus:outline-none focus:bg-white"
+                                        name="name"
+                                        value=""
+                                        placeholder="Digite o Nome do Usuário"
+                                        autofocus
+                                    >
+                                    <div
+                                        v-if="!!errors[0]"
+                                        class="text-red-800 text-sm mb-2"
+                                    >
+                                        {{ errors[0] }}
+                                    </div>
+                                </ValidationProvider>
+                            </div>
+                            <div class="mt-2">
+                                <ValidationProvider
+                                    v-slot="{ errors }"
+                                    rules="required"
+                                    name="Senha"
+                                >
+                                    <label class="block  text-sm text-white">Senha</label>
+                                    <input
+                                        v-model="password"
+                                        type="password"
+                                        class="w-full px-5 py-1 text-gray-700 bg-gray-300 rounded focus:outline-none focus:bg-white"
+                                        name="password"
+                                        placeholder="Digite a sua senha"
+                                    >
+                                    <div
+                                        v-if="!!errors[0]"
+                                        class="text-red-800 text-sm mb-2"
+                                    >
+                                        {{ errors[0] }}
+                                    </div>
+                                </ValidationProvider>
+                            </div>
+                            <div class="mt-8 items-center flex justify-between">
+                                <button
+                                    type="submit"
+                                    :disabled="spinner.login"
+                                    class="flex items-center justify-center px-8 py-2 text-white font-light tracking-wider bg-blue-600 hover:bg-blue-500 rounded-sm appearance-none leading-normal"
+                                >
+                                    <img
+                                        v-if="spinner.login"
+                                        src="@/assets/img/spinner.svg"
+                                        class="w-4 h-4"
+                                    >
+                                    Entrar
+                                </button>
                                 <RouterLink
                                     :to="{ name: 'ForgotPassword' }"
-                                    class="no-underline hover:underline text-blue-dark text-xs"
+                                    class="inline-block right-0 align-baseline font-bold text-sm text-500 text-white hover:text-blue-400"
                                 >
                                     Esqueci minha senha
                                 </RouterLink>
                             </div>
-                        </div>
-                    </div>
+                        </ValidationObserver>
+                    </form>
                 </div>
-                <div
-                    class="hidden md:block md:w-1/2 rounded-r-lg"
-                    style="background: url('https://images.unsplash.com/photo-1476067897447-d0c5df27b5df?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80); background-size: cover; background-position: center center;"
-                />
             </div>
         </div>
     </div>
 </template>
+<style>
+  .login{
+  /*
+    background: url('https://tailwindadmin.netlify.app/dist/images/login-new.jpeg');
+  */
+  background: url("https://images.unsplash.com/photo-1476067897447-d0c5df27b5df?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80); background-size: cover; background-position: center center;");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>
 <script>
     import NprogressContainer from 'vue-nprogress/src/NprogressContainer';
     import Cookie from '@/service/cookie';

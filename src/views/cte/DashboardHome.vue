@@ -27,7 +27,6 @@
             </ol>
         </nav>
         <!-- breadcrumb end -->
-
         <div class="lg:flex justify-between items-center mb-6">
             <p class="text-2xl font-semibold mb-2 lg:mb-0 text-gray-800">
                 Logado como {{ user.name }} em Cargas Central!
