@@ -59,8 +59,7 @@
                             </div>
                             <div class="mt-2">
                                 <ValidationProvider
-                                    :rules="{ required: true, regex: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/ }"
-                                    vid="password"
+                                    :rules="{ required: true, min: 8, max: 30, regex: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/ }"
                                     v-slot="{ errors }"
                                 >
                                     <label class="block  text-sm text-white">Senha</label>
@@ -101,6 +100,15 @@
                                         {{ errors[0] }}
                                     </div>
                                 </ValidationProvider>
+                            </div>
+                            <div
+                                class="rounded-sm bg-blue-100 p-4 mb-4 mt-6"
+                            >
+                                <h3 class="text-xs leading-2 font-medium text-blue-500">
+                                    A Senha deve possuir:
+                                    <li>Entre 8 e 30 caracteres</li>
+                                    <li>Pelo menos 1 letra maíusculae e 1 minúscula</li>
+                                </h3>
                             </div>
                             <div class="mt-8 items-center flex justify-between">
                                 <button
@@ -186,7 +194,6 @@
         methods: {
             async resetPassword() {
                 const validator = await this.$refs.resetPasswordForm.validate();
-                console.log(validator);
                 if (!validator) { return; }
 
                 this.resetResponse();
